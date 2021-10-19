@@ -2,10 +2,10 @@ import './styles/main.scss';
 
 const { apiSearch } = require('../api');
 
-let state = {
+const state = {
   inputValue: null,
   searchResults: [],
-  resultPage: 1
+  resultPage: 1,
 };
 
 // Create DOM elements
@@ -44,7 +44,7 @@ app.append(footer);
 const datalist = document.querySelector('.list-group');
 let recentSearches;
 
-if (localStorage.recentSearches && localStorage.recentSearches != "") {
+if (localStorage.recentSearches && localStorage.recentSearches !== '') {
   recentSearches = JSON.parse(localStorage.recentSearches);
 } else {
   recentSearches = [];
@@ -52,7 +52,7 @@ if (localStorage.recentSearches && localStorage.recentSearches != "") {
 
 const isDuplicateValue = (arr, text) => {
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i] == text) {
+    if (arr[i] === text) {
       return true;
     }
   }
@@ -60,11 +60,11 @@ const isDuplicateValue = (arr, text) => {
 };
 
 const makeListItem = (text, parent) => {
-    let listItem = document.createElement("option");
-    listItem.value = text;
-    listItem.className = "list-group-item";
-    parent.appendChild(listItem);
-  };
+  const listItem = document.createElement('option');
+  listItem.value = text;
+  listItem.className = 'list-group-item';
+  parent.appendChild(listItem);
+};
 
 recentSearches.forEach(element => {
   makeListItem(element, datalist);
@@ -79,16 +79,15 @@ document.querySelector('.submitBtn').addEventListener('click', e => {
 
   apiSearch(state);
   if (
-    state.inputValue == "" ||
-    isDuplicateValue(recentSearches, state.inputValue)
+    state.inputValue === ''
+    || isDuplicateValue(recentSearches, state.inputValue)
   ) {
     return;
-  } else {
-    recentSearches.push(state.inputValue);
-    makeListItem(state.inputValue, datalist);
-    localStorage.recentSearches = JSON.stringify(recentSearches);
-    state.inputValue = "";
   }
+  recentSearches.push(state.inputValue);
+  makeListItem(state.inputValue, datalist);
+  localStorage.recentSearches = JSON.stringify(recentSearches);
+  state.inputValue = '';
 });
 
 document.querySelector('.nextBtn').addEventListener('click', e => {
