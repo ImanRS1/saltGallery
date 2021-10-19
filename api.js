@@ -1,5 +1,7 @@
 const config = require('./config');
 
+const { state } = require('./src/index.js');
+
 const apiSearch = (query, page=1) => {
   fetch(`https://api.unsplash.com/search/photos/?query=${query}&page=${page}&per_page=9&client_id=${config.key}`)
     .then(imgs => imgs.json())

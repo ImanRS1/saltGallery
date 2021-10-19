@@ -2,6 +2,12 @@ import './styles/main.scss';
 
 const { apiSearch } = require('../api');
 
+let state = {
+  inputValue: null,
+  searchResults: [],
+  resultPage: 1
+};
+
 // Create heading node
 const header = document.createElement('header');
 header.className = 'page-header';
@@ -13,14 +19,15 @@ footer.innerHTML = '<a href="https://www.github.com" class="page-footer__github-
 
 const searchBar = document.createElement('div');
 searchBar.className = 'search-bar';
-searchBar.innerHTML = '<form><input type="text" placeholder="SEARCH" class="search-bar__search-input"><button type="submit" class="submitBtn">Search</button></form>';
+searchBar.innerHTML = '<form><input type="text" placeholder="SEARCH" class="search-bar__search-input" list="history-list"><button type="submit" class="submitBtn">Search</button></form>';
 
 const imageContainer = document.createElement('section');
 imageContainer.className = 'image-container';
 imageContainer.innerHTML = '<div class="image"></div><div class="buttons"><button class="prevBtn hidden">Previous</button><button class="nextBtn hidden">Next</button></div>';
 
-const dropDown = document.createElement('ul');
+const dropDown = document.createElement('datalist');
 dropDown.className = 'list-group';
+dropDown.setAttribute('id', 'history-list');
 
 // Append heading node to the DOM
 const app = document.querySelector('#root');
@@ -30,7 +37,7 @@ app.append(dropDown);
 app.append(imageContainer);
 app.append(footer);
 
-const ul = document.querySelector('.list-group');
+const datalist = document.querySelector('.list-group');
 let recentSearches;
 
 if (localStorage.recentSearches && localStorage.recentSearches != "") {
@@ -49,14 +56,14 @@ const isDuplicateValue = (arr, text) => {
 };
 
 const makeListItem = (text, parent) => {
-    let listItem = document.createElement("li");
-    listItem.textContent = text;
+    let listItem = document.createElement("option");
+    listItem.value = text;
     listItem.className = "list-group-item";
     parent.appendChild(listItem);
   };
 
 recentSearches.forEach(element => {
-  makeListItem(element, ul);
+  makeListItem(element, datalist);
 });
 
 document.querySelector('.submitBtn').addEventListener('click', e => {
@@ -70,7 +77,7 @@ document.querySelector('.submitBtn').addEventListener('click', e => {
     return;
   } else {
     recentSearches.push(searchBar.value);
-    makeListItem(searchBar.value, ul);
+    makeListItem(searchBar.value, datalist);
     localStorage.recentSearches = JSON.stringify(recentSearches);
     searchBar.value = "";
   }
@@ -89,3 +96,5 @@ document.querySelector('.prevBtn').addEventListener('click', e => {
   page -= 1;
   apiSearch(document.querySelector('.search-bar__search-input').value, page);
 });
+
+module.exports = { state };
