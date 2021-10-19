@@ -12,9 +12,13 @@ h1 {
 
 .image {
   width: 100px;
-  height: 100px;
+  height: 100%;
 }
 
 .target-img {
   width: 100%;
+}
+
+.hidden {
+  display: none;
 }
