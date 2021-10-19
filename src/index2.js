@@ -74,33 +74,33 @@ recentSearches.forEach(element => {
 
 document.querySelector('.submitBtn').addEventListener('click', e => {
   e.preventDefault();
-  state.inputValue = document.querySelector('.search-bar__search-input').value;
-  state.resultPage = 1;
-
-  apiSearch(state);
+  apiSearch(document.querySelector('.search-bar__search-input').value);
+  const searchBar = document.querySelector('.search-bar__search-input');
   if (
-    state.inputValue == "" ||
-    isDuplicateValue(recentSearches, state.inputValue)
+    searchBar.value == "" ||
+    isDuplicateValue(recentSearches, searchBar.value)
   ) {
     return;
   } else {
-    recentSearches.push(state.inputValue);
-    makeListItem(state.inputValue, datalist);
+    recentSearches.push(searchBar.value);
+    makeListItem(searchBar.value, datalist);
     localStorage.recentSearches = JSON.stringify(recentSearches);
-    state.inputValue = "";
+    searchBar.value = "";
   }
 });
 
+let page = 1;
+
 document.querySelector('.nextBtn').addEventListener('click', e => {
   e.preventDefault();
-  state.inputValue = document.querySelector('.search-bar__search-input').value;
-  state.resultPage += 1;
-  apiSearch(state);
+  page += 1;
+  apiSearch(document.querySelector('.search-bar__search-input').value, page);
 });
 
 document.querySelector('.prevBtn').addEventListener('click', e => {
   e.preventDefault();
-  state.inputValue = document.querySelector('.search-bar__search-input').value;
-  state.resultPage -= 1;
-  apiSearch(state);
+  page -= 1;
+  apiSearch(document.querySelector('.search-bar__search-input').value, page);
 });
+
+module.exports = { state };
