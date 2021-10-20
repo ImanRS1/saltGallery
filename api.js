@@ -42,4 +42,6 @@ const apiSearch = state => {
     .then(() => dataHandler(state));
 };
 
-module.exports = { apiSearch };
+const addNumbers = (n1, n2) => n1+n2;
+
+module.exports = { apiSearch, addNumbers };

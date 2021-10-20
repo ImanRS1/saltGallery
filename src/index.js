@@ -16,7 +16,7 @@ header.innerHTML = '<nav class="page-header__navbar"><h1 class="navbar__title">L
 
 const footer = document.createElement('footer');
 footer.className = 'page-footer';
-footer.innerHTML = '<a href="https://www.github.com" class="page-footer__github-link">GitHub logo temp</a>';
+footer.innerHTML = '<a href="https://www.github.com" class="page-footer__github-link">GitHub</a>';
 
 const searchBar = document.createElement('div');
 searchBar.className = 'search-bar';
