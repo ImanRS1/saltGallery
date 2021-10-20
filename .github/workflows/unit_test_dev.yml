@@ -1,24 +1,11 @@
-# This is a basic workflow to help you get started with Actions
-
-name: Unit Tests for development
-
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: development
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+name: CI
+on: push
 jobs:
-  # This workflow contains a single job called "build"
-  test:
-    name: unit tests
-    # The type of runner that the job will run on
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with: 
-          node-version: '14'
-      - run: npm install
-      - run: npm test
+    - uses: actions/checkout@v2
+    - name: Install modules
+      run: npm install
+    - name: Run tests
+      run: npm run test
